@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+            <script language="javascript">
+                
+// js调用：无参数
+function noneClick() {
+    try { // 新
+        window.webkit.messageHandlers.noneParameter.postMessage(null);
+    } catch (error) { // 旧
+        window.noneParameter();
+    }
+}
+
+// js调用：1个参数
+function singleClick() {
+    try { // 新
+        window.webkit.messageHandlers.singleParameter.postMessage('js调用1个参数');
+    } catch (error) { // 旧
+        window.singleParameter('js调用1个参数');
+    }
+}
+            
+// js调用：多个参数
+function moreClick() {
+    try { // 新
+        window.webkit.messageHandlers.moreParameter.postMessage(['js调用多个参数1', 'js调用多个参数2', 'js调用多个参数3']);
+        //window.webkit.messageHandlers.moreParameter.postMessage({'str1' : 'js调用多个参数1', 'str2' : 'js调用多个参数2', 'str3' : 'js调用多个参数3'});
+
+    } catch (error) { // 旧
+        window.moreParameter('js调用多个参数1', 'js调用多个参数2', 'js调用多个参数3');
+    }
+}
+            
+// js调用：🌹同步的🌹拿到客户端返回值
+function getReturnClick() {
+    var res;
+    try { // 新
+        var type = "JSbridge";
+        var functionName = "getReturnValue:";
+        var args = "一个参数";
+
+        var payload = {"type": type, "functionName": functionName, "arguments": args};
+        res = prompt(JSON.stringify(payload));
+        
+    } catch (error) { // 旧
+        res = window.getReturnValue();
+    }
+    alert(res);
+}
+
+// 🌹异步的🌹响应客户端的调用
+function jsResponseClient(response) {
+    alert(response);
+}
+            
+         
+         
+            
+                </script>
+            </head>
+    <body>
+        <h1>这是JS调用</h1>
+        <h1><input type="button" value="js调用：无参数" onclick="noneClick()" style="width:30%; height:50px;" /><h1>
+
+        <h1><input type="button" value="js调用：1个参数" onclick="singleClick()" style="width:30%; height:50px;" /><h1>
+            
+        <h1><input type="button" value="js调用：多个参数" onclick="moreClick()" style="width:30%; height:50px;" /><h1>
+
+        <h1><input type="button" value="js调用：🌹同步的🌹拿到客户端返回值" onclick="getReturnClick()" style="width:45%; height:50px;" /><h1>
+
+        </textarea>
+    </body>
+</html>
