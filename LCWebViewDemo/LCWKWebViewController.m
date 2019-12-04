@@ -118,7 +118,7 @@ static NSString *const kJSMoreParameter = @"moreParameter";
             
             SEL selector = NSSelectorFromString(functionName);
             if ([self respondsToSelector:selector]) {
-                returnValue = [self performSelector:selector withObject:args];
+                kSuppressPerformSelectorLeakWarning(returnValue = [self performSelector:selector withObject:args]);
             }
             completionHandler(returnValue);
             return ;
